@@ -1,0 +1,34 @@
+= Spring Boot ShrinkWrap Archive
+
+This specific ShrinkWrap archive allows you to create Spring Boot archives.
+The basic archive is class is `org.shrinkwrap.springboot.api.SpringBoot13Archive`.
+
+== SpringBootArchive for Spring Boot versions prior to 1.4.X
+
+To create a Spring Boot archive you need to use `org.shrinkwrap.springboot.api.SpringBoot13Archive` in `ShrinkWrap.create` method.
+
+[source, java]
+----
+ShrinkWrap.create(SpringBoot13Archive.class)
+        .addClass(org.shrinkwrap.springboot.app.HelloController.class) // <1>
+
+        .addLibs(Maven.resolver()
+                   .resolve("org.springframework.boot:spring-boot-starter-web:1.3.5.RELEASE")
+                   .withTransitivity()
+                   .as(JavaArchive.class)
+        ) // <2>
+
+       .addLauncher(Maven.resolver()
+                    .resolve("org.springframework.boot:spring-boot-loader:1.3.5.RELEASE")
+                    .withTransitivity()
+                    .as(JavaArchive.class)
+       ) // <3>
+
+       .addSpringBootApplication(Application.class); // <4>
+----
+<1> Normal call of ShrinkWrap method.
+<2> Libraries must be bundled inside `/lib` directory. `addLibs` adds libraries in correct place.
+<3> Spring Boot application needs a launcher to run the application.
+<4> Class that contains the `main` method.
+
+IMPORTANT: To materialize a Spring Boot application you need to use `ZipStoredExporter`, for example `springBoot13Archive.as(ZipStoredExporter.class).exportTo(new File("/tmp/app.jar"));`
