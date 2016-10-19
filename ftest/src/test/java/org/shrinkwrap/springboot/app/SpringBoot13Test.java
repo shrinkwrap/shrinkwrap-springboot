@@ -12,7 +12,6 @@
 
 package org.shrinkwrap.springboot.app;
 
-import io.restassured.RestAssured;
 import org.awaitility.Duration;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.exporter.ZipStoredExporter;
