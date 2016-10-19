@@ -95,7 +95,7 @@ public class SpringBoot13ArchiveImpl extends ContainerBase<SpringBoot13Archive> 
     /*
      * (non-Javadoc)
      *
-     * @see org.jboss.declarchive.impl.base.ContainerBase#getManifestPath()
+     * @see org.jboss.shrinkwrap.impl.base.container.ContainerBase#getClassesPath()
      */
     @Override
     protected ArchivePath getManifestPath() {
@@ -120,7 +120,7 @@ public class SpringBoot13ArchiveImpl extends ContainerBase<SpringBoot13Archive> 
     /*
      * (non-Javadoc)
      *
-     * @see org.jboss.declarchive.impl.base.ContainerBase#getResourcePath()
+     * @see org.jboss.shrinkwrap.impl.base.container.ContainerBase#getClassesPath()
      */
     @Override
     protected ArchivePath getResourcePath() {
