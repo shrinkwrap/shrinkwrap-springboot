@@ -24,6 +24,7 @@ import org.shrinkwrap.springboot.api.SpringBoot13Archive;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.Callable;
@@ -73,12 +74,16 @@ public class SpringBoot13Test {
             final Callable<Integer> statusCode = new Callable<Integer>() {
                 @Override
                 public Integer call() throws Exception {
-                    URL url = new URL("http://localhost:8080");
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.connect();
+                    try {
+                        URL url = new URL("http://localhost:8080");
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("GET");
+                        connection.connect();
 
-                    return connection.getResponseCode();
+                        return connection.getResponseCode();
+                    } catch(ConnectException e) {
+                        return 404;
+                    }
                 }
             };
 
