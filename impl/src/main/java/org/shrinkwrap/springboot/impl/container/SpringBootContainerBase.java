@@ -14,13 +14,13 @@ import org.jboss.shrinkwrap.api.asset.FileAsset;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.asset.UrlAsset;
 import org.jboss.shrinkwrap.api.exporter.ZipStoredExporter;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.descriptor.api.Descriptors;
 import org.jboss.shrinkwrap.descriptor.api.spec.se.manifest.ManifestDescriptor;
 import org.jboss.shrinkwrap.impl.base.Validate;
 import org.jboss.shrinkwrap.impl.base.asset.AssetUtil;
 import org.jboss.shrinkwrap.impl.base.container.WebContainerBase;
 import org.jboss.shrinkwrap.impl.base.path.BasicPath;
-import org.jboss.shrinkwrap.impl.base.spec.JavaArchiveImpl;
 import org.shrinkwrap.springboot.api.container.SpringBootContainer;
 import org.shrinkwrap.springboot.impl.SpringBootManifestAttributes;
 
@@ -33,11 +33,8 @@ public abstract class SpringBootContainerBase<T extends Archive<T>> extends WebC
 
     private static String NO_VERSION_SPECIFIED = ".";
 
-    private JavaArchiveImpl launcherArchiveView;
-
     protected SpringBootContainerBase(Class<T> actualType, Archive<?> archive) {
         super(actualType, archive);
-        launcherArchiveView = new JavaArchiveImpl(archive);
     }
 
     /**
@@ -351,7 +348,7 @@ public abstract class SpringBootContainerBase<T extends Archive<T>> extends WebC
      */
     @Override
     public T addAsServiceProvider(Class<?> serviceInterface, Class<?>... serviceImpls) throws IllegalArgumentException {
-        launcherArchiveView.addAsServiceProvider(serviceInterface, serviceImpls);
+        asJAR().addAsServiceProvider(serviceInterface, serviceImpls);
         return covarientReturn();
     }
 
@@ -361,7 +358,7 @@ public abstract class SpringBootContainerBase<T extends Archive<T>> extends WebC
     @Override
     public T addAsServiceProvider(String serviceInterface, String... serviceImpls) throws IllegalArgumentException
     {
-        launcherArchiveView.addAsServiceProvider(serviceInterface, serviceImpls);
+        asJAR().addAsServiceProvider(serviceInterface, serviceImpls);
         return covarientReturn();
     }
 
@@ -374,55 +371,55 @@ public abstract class SpringBootContainerBase<T extends Archive<T>> extends WebC
     @Override
     public T addAsServiceProviderAndClasses(Class<?> serviceInterface, Class<?>... serviceImpls)
             throws IllegalArgumentException {
-        launcherArchiveView.addAsServiceProvider(serviceInterface, serviceImpls);
+        asJAR().addAsServiceProvider(serviceInterface, serviceImpls);
         return covarientReturn();
     }
 
     @Override
     public T addLauncherClass(Class<?> clazz) throws IllegalArgumentException {
-        launcherArchiveView.addClass(clazz);
+        this.asJAR().addClass(clazz);
         return covarientReturn();
     }
 
     @Override
     public T addLauncherClass(String fullyQualifiedClassName) throws IllegalArgumentException {
-        launcherArchiveView.addClass(fullyQualifiedClassName);
+        asJAR().addClass(fullyQualifiedClassName);
         return covarientReturn();
     }
 
     @Override
     public T addLauncherClass(String fullyQualifiedClassName, ClassLoader cl) throws IllegalArgumentException {
-        launcherArchiveView.addClass(fullyQualifiedClassName, cl);
+        asJAR().addClass(fullyQualifiedClassName, cl);
         return covarientReturn();
     }
 
     @Override
     public T addLauncherClasses(Class<?>[] classes) throws IllegalArgumentException {
-        launcherArchiveView.addClasses(classes);
+        asJAR().addClasses(classes);
         return covarientReturn();
     }
 
     @Override
     public T addDefaultLauncherPackage() {
-        launcherArchiveView.addDefaultPackage();
+        asJAR().addDefaultPackage();
         return covarientReturn();
     }
 
     @Override
     public T addLauncherPackages(boolean recursive, Package... packages) throws IllegalArgumentException {
-        launcherArchiveView.addPackages(recursive, packages);
+        asJAR().addPackages(recursive, packages);
         return covarientReturn();
     }
 
     @Override
     public T addLauncherPackages(boolean recursive, Filter<ArchivePath> filter, Package... packages) throws IllegalArgumentException {
-        launcherArchiveView.addPackages(recursive, filter, packages);
+        asJAR().addPackages(recursive, filter, packages);
         return covarientReturn();
     }
 
     @Override
     public T addLauncherPackage(String pack) throws IllegalArgumentException {
-        launcherArchiveView.addPackage(pack);
+        asJAR().addPackage(pack);
         return covarientReturn();
     }
 
@@ -433,67 +430,71 @@ public abstract class SpringBootContainerBase<T extends Archive<T>> extends WebC
 
     @Override
     public T addLauncherPackages(boolean recursive, Filter<ArchivePath> filter, String... packages) throws IllegalArgumentException {
-        launcherArchiveView.addPackages(recursive, filter, packages);
+        asJAR().addPackages(recursive, filter, packages);
         return covarientReturn();
     }
 
     @Override
     public T deleteLauncherClass(Class<?> clazz) throws IllegalArgumentException {
-        launcherArchiveView.deleteClass(clazz);
+        asJAR().deleteClass(clazz);
         return covarientReturn();
     }
 
     @Override
     public T deleteLauncherClass(String fullyQualifiedClassName) throws IllegalArgumentException {
-        launcherArchiveView.deleteClass(fullyQualifiedClassName);
+        asJAR().deleteClass(fullyQualifiedClassName);
         return covarientReturn();
     }
 
     @Override
     public T deleteLauncherClasses(Class<?>[] classes) throws IllegalArgumentException {
-        launcherArchiveView.deleteClasses(classes);
+        asJAR().deleteClasses(classes);
         return covarientReturn();
     }
 
     @Override
     public T deleteLauncherPackage(Package pack) throws IllegalArgumentException {
-        launcherArchiveView.deletePackage(pack);
+        asJAR().deletePackage(pack);
         return covarientReturn();
     }
 
     @Override
     public T deleteLauncherPackage(String pack) throws IllegalArgumentException {
-        launcherArchiveView.deletePackage(pack);
+        asJAR().deletePackage(pack);
         return covarientReturn();
     }
 
     @Override
     public T deleteDefaultLauncherPackage() {
-        launcherArchiveView.deleteDefaultPackage();
+        asJAR().deleteDefaultPackage();
         return covarientReturn();
     }
 
     @Override
     public T deleteLauncherPackages(boolean recursive, Package... packages) throws IllegalArgumentException {
-        launcherArchiveView.deletePackages(recursive, packages);
+        asJAR().deletePackages(recursive, packages);
         return covarientReturn();
     }
 
     @Override
     public T deleteLauncherPackages(boolean recursive, String... packages) throws IllegalArgumentException {
-        launcherArchiveView.deletePackages(recursive, packages);
+        asJAR().deletePackages(recursive, packages);
         return covarientReturn();
     }
 
     @Override
     public T deleteLauncherPackages(boolean recursive, Filter<ArchivePath> filter, Package... packages) throws IllegalArgumentException {
-        launcherArchiveView.deletePackages(recursive, filter, packages);
+        asJAR().deletePackages(recursive, filter, packages);
         return covarientReturn();
     }
 
     @Override
     public T deleteLauncherPackages(boolean recursive, Filter<ArchivePath> filter, String... packages) throws IllegalArgumentException {
-        launcherArchiveView.deletePackages(recursive, filter, packages);
+        asJAR().deletePackages(recursive, filter, packages);
         return covarientReturn();
+    }
+
+    private JavaArchive asJAR() {
+        return as(JavaArchive.class);
     }
 }
