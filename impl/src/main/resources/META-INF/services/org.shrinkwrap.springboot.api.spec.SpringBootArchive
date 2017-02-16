@@ -1,0 +1,3 @@
+implementingClassName=org.shrinkwrap.springboot.impl.spec.SpringBootArchiveImpl
+extension=.jar
+archiveFormat=ZIP
