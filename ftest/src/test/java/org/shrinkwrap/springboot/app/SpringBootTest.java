@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.concurrent.Callable;
 
 import org.awaitility.Duration;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -86,26 +85,9 @@ public class SpringBootTest {
         archive.as(ZipStoredExporter.class).exportTo(new File(temporaryFolder.getRoot(), "app.jar"));
         Process process = new ProcessBuilder("java", "-jar", temporaryFolder.getRoot().getAbsolutePath() + "/app.jar").start();
         try {
-
-            final Callable<Integer> statusCode = new Callable<Integer>() {
-                @Override
-                public Integer call() throws Exception {
-                    try {
-                        URL url = new URL("http://localhost:8080");
-                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("GET");
-                        connection.connect();
-
-                        return connection.getResponseCode();
-                    } catch(ConnectException e) {
-                        return 404;
-                    }
-                }
-            };
-
             await()
                     .atMost(Duration.TEN_SECONDS)
-                    .until(statusCode, equalTo(200));
+                    .until(SpringBootTest::localServiceHttpStatus, equalTo(200));
 
             // check controller works
             get().then().body(equalTo("Greetings From Spring Boot"));
@@ -114,6 +96,19 @@ public class SpringBootTest {
             get("/hello").then().body(equalTo("world"));
         } finally {
             process.destroy();
+        }
+    }
+
+    private static int localServiceHttpStatus() throws IOException {
+        try {
+            URL url = new URL("http://localhost:8080");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
+
+            return connection.getResponseCode();
+        } catch(ConnectException e) {
+            return 404;
         }
     }
 
