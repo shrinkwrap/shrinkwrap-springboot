@@ -10,7 +10,7 @@
 
     <groupId>org.jboss.shrinkwrap</groupId>
     <artifactId>shrinkwrap-springboot-parent</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>ShrinkWrap Spring Boot :: Parent</name>
 
@@ -136,7 +136,7 @@
         <connection>scm:git:git://github.com/shrinkwrap/shrinkwrap-springboot.git</connection>
         <developerConnection>scm:git:git@github.com:shrinkwrap/shrinkwrap-springboot.git</developerConnection>
         <url>http://github.com/shrinkwrap/shrinkwrap-springboot</url>
-        <tag>0.0.1</tag>
+        <tag>HEAD</tag>
     </scm>
 
 </project>
