@@ -3,7 +3,7 @@
    <parent>
       <groupId>org.jboss.shrinkwrap</groupId>
       <artifactId>shrinkwrap-springboot-parent</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>0.0.1</version>
       <relativePath>../pom.xml</relativePath>
    </parent>
    <artifactId>shrinkwrap-spring-boot-impl</artifactId>
