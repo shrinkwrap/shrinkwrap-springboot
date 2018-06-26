@@ -24,7 +24,7 @@ To create a Spring Boot archive, you need to pass `org.shrinkwrap.springboot.api
 ShrinkWrap.create(SpringBootArchive.class)
         .setSpringBootLayout(SpringBootLayouts.SPRING_BOOT_14) // <1>
 
-        .addClasses(Application.class, .HelloController.class) // <2>
+        .addClasses(Application.class, HelloController.class) // <2>
 
         .addAsLibraries(Maven.resolver()
                    .resolve("org.springframework.boot:spring-boot-starter-web:1.4.4.RELEASE")
